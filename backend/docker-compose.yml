@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api
+    ports:
+      - "5037:8080"
+    depends_on:
+      - mssql
+    networks:
+      - mssql-network
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql_server_2022
+    environment:
+      SA_PASSWORD: StrongPassword1!
+      ACCEPT_EULA: Y
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./data:/var/opt/mssql/data
+      - ./backup:/var/opt/mssql/backup
+    networks:
+      - mssql-network
+
+networks:
+  mssql-network:
+    driver: bridge
