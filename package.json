@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "start": "concurrently \"cd backend && dotnet watch run\" \"cd frontend && npm run dev\""
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
