@@ -114,11 +114,11 @@ builder
         };
         options.ExpireTimeSpan = TimeSpan.FromDays(1);
         options.SlidingExpiration = true;
-        // options.Cookie.HttpOnly = true;
-        // options.Cookie.Domain = "localhost";
-        // options.Cookie.Path = "/";
-        // options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-        // options.Cookie.SameSite = SameSiteMode.None;
+        options.Cookie.HttpOnly = true;
+        options.Cookie.Domain = "http://192.168.1.3";
+        options.Cookie.Path = "/";
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.Cookie.SameSite = SameSiteMode.None;
     });
 
 // Force Identity's security stamp to be validated every minute.

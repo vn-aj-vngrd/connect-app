@@ -122,12 +122,12 @@ public class AuthController : ControllerBase
         [FromQuery] string code
     )
     {
-        var AppHost = _configuration["AppHost"];
+        var FrontendHost = _configuration["FrontendHost"];
 
         if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(code))
         {
             return Redirect(
-                $"{AppHost}/email-confirmation?title=Email Confirmation Failed&description=UserId and Code are required in the query parameters"
+                $"{FrontendHost}/email-confirmation?title=Email Confirmation Failed&description=UserId and Code are required in the query parameters"
             );
         }
 
@@ -136,14 +136,14 @@ public class AuthController : ControllerBase
         if (user == null)
         {
             return Redirect(
-                $"{AppHost}/email-confirmation?Title=&description=Sorry, we couldn't find your account"
+                $"{FrontendHost}/email-confirmation?Title=&description=Sorry, we couldn't find your account"
             );
         }
 
         if (user.EmailConfirmed)
         {
             return Redirect(
-                $"{AppHost}/email-confirmation?title=Email Confirmation Failed&description=Your email has already been confirmed"
+                $"{FrontendHost}/email-confirmation?title=Email Confirmation Failed&description=Your email has already been confirmed"
             );
         }
 
@@ -155,12 +155,12 @@ public class AuthController : ControllerBase
         if (!result.Succeeded)
         {
             return Redirect(
-                $"{AppHost}/email-confirmation?title=Email Confirmation Failed&description=Sorry, we couldn't confirm your email. The link may have expired, please try again."
+                $"{FrontendHost}/email-confirmation?title=Email Confirmation Failed&description=Sorry, we couldn't confirm your email. The link may have expired, please try again."
             );
         }
 
         return Redirect(
-            $"{AppHost}/email-confirmation?title=Email Confirmed&description=Your email has been confirmed successfully"
+            $"{FrontendHost}/email-confirmation?title=Email Confirmed&description=Your email has been confirmed successfully"
         );
     }
 
@@ -194,12 +194,12 @@ public class AuthController : ControllerBase
         [FromQuery] string code
     )
     {
-        var AppHost = _configuration["AppHost"];
+        var FrontendHost = _configuration["FrontendHost"];
 
         if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(code))
         {
             return Redirect(
-                $"{AppHost}/reset-password?title=Reset Password Failed&description=UserId and Code are required in the query parameters"
+                $"{FrontendHost}/reset-password?title=Reset Password Failed&description=UserId and Code are required in the query parameters"
             );
         }
 
@@ -208,7 +208,7 @@ public class AuthController : ControllerBase
         if (user == null)
         {
             return Redirect(
-                $"{AppHost}/reset-password?title=Reset Password Failed&description=Sorry, we couldn't find your account"
+                $"{FrontendHost}/reset-password?title=Reset Password Failed&description=Sorry, we couldn't find your account"
             );
         }
 
@@ -225,12 +225,12 @@ public class AuthController : ControllerBase
         if (!result)
         {
             return Redirect(
-                $"{AppHost}/reset-password?title=Reset Password Failed&description=Sorry, we couldn't reset your password. The link may have expired or has been used."
+                $"{FrontendHost}/reset-password?title=Reset Password Failed&description=Sorry, we couldn't reset your password. The link may have expired or has been used."
             );
         }
 
         return Redirect(
-            $"{AppHost}/reset-password?title=Reset Password&description=Please enter your new password. This link is valid for 15 minutes.&userId={userId}&code={code}"
+            $"{FrontendHost}/reset-password?title=Reset Password&description=Please enter your new password. This link is valid for 15 minutes.&userId={userId}&code={code}"
         );
     }
 
@@ -302,7 +302,7 @@ public class AuthController : ControllerBase
         [FromQuery] string code
     )
     {
-        var AppHost = _configuration["AppHost"];
+        var FrontendHost = _configuration["FrontendHost"];
 
         if (
             string.IsNullOrEmpty(userId)
@@ -311,7 +311,7 @@ public class AuthController : ControllerBase
         )
         {
             return Redirect(
-                $"{AppHost}/email-confirmation?title=Change Email Failed&description=UserId, NewEmail and Code are required in the query parameters"
+                $"{FrontendHost}/email-confirmation?title=Change Email Failed&description=UserId, NewEmail and Code are required in the query parameters"
             );
         }
 
@@ -320,7 +320,7 @@ public class AuthController : ControllerBase
         if (user == null)
         {
             return Redirect(
-                $"{AppHost}/email-confirmation?title=Change Email Failed&description=Sorry, we couldn't find your account"
+                $"{FrontendHost}/email-confirmation?title=Change Email Failed&description=Sorry, we couldn't find your account"
             );
         }
 
@@ -337,7 +337,7 @@ public class AuthController : ControllerBase
         if (!result)
         {
             return Redirect(
-                $"{AppHost}/email-confirmation?title=Change Email Failed&description=Sorry, we couldn't change your email. The link may have expired or has been used."
+                $"{FrontendHost}/email-confirmation?title=Change Email Failed&description=Sorry, we couldn't change your email. The link may have expired or has been used."
             );
         }
 
@@ -348,12 +348,12 @@ public class AuthController : ControllerBase
         if (!updateResult.Succeeded)
         {
             return Redirect(
-                $"{AppHost}/email-confirmation?title=Change Email Failed&description=Sorry, we couldn't change your email. Please try again."
+                $"{FrontendHost}/email-confirmation?title=Change Email Failed&description=Sorry, we couldn't change your email. Please try again."
             );
         }
 
         return Redirect(
-            $"{AppHost}/email-confirmation?title=Email Changed&description=Your email has been changed successfully"
+            $"{FrontendHost}/email-confirmation?title=Email Changed&description=Your email has been changed successfully"
         );
     }
 
