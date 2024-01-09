@@ -122,7 +122,7 @@ public class AuthController : ControllerBase
         [FromQuery] string code
     )
     {
-        var FrontendUrl = $"{_configuration["AppHost"]}:3000";
+        var FrontendUrl = $"http://{_configuration["AppHost"]}:3000";
 
         if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(code))
         {
@@ -194,7 +194,7 @@ public class AuthController : ControllerBase
         [FromQuery] string code
     )
     {
-        var FrontendUrl = $"{_configuration["AppHost"]}:3000";
+        var FrontendUrl = $"http://{_configuration["AppHost"]}:3000";
 
         if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(code))
         {
@@ -302,7 +302,7 @@ public class AuthController : ControllerBase
         [FromQuery] string code
     )
     {
-        var FrontendUrl = $"{_configuration["AppHost"]}:3000";
+        var FrontendUrl = $"http://{_configuration["AppHost"]}:3000";
 
         if (
             string.IsNullOrEmpty(userId)
