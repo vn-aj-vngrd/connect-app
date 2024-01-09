@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-var builder = WebApplication.CreateBuilder(args);
+var APP_HOST = "AppHost";
 
-const string APP_HOST = "AppHost";
+var builder = WebApplication.CreateBuilder(args);
 
 builder
     .Services
