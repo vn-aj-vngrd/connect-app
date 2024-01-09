@@ -28,5 +28,5 @@ cd connect-app
 1. In the root directory of the project, run this command to start building the docker image.
 
 ```bash
-yarn build
+docker-compose up -d --build
 ```
