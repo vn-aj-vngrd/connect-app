@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
+const string APP_HOST = "AppHost";
+
 builder
     .Services
     .AddCors(options =>
@@ -18,7 +20,10 @@ builder
             policy =>
             {
                 policy
-                    .WithOrigins("http://localhost:3000")
+                    .WithOrigins(
+                        "http://localhost:3000",
+                        $"http://{builder.Configuration[APP_HOST]}:3000"
+                    )
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials();
