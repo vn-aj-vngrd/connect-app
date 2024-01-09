@@ -1,16 +1,16 @@
 version: "3.8"
 
 services:
-  # app:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   container_name: app
-  #   ports:
-  #     - "3000:3000"
-  #   volumes:
-  #     - .:/app
-  #     - /app/node_modules
+  app:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: app
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
 
   api:
     build:
