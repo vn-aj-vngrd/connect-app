@@ -79,7 +79,8 @@ export function ContactList({
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   async function loadMore() {
-    const next = startingIndex + 10;
+    const next =
+      contacts.length < 10 ? contacts.length : startingIndex + 10;
 
     const { data: newContacts } = await getContacts({
       startingIndex: next,
@@ -89,6 +90,8 @@ export function ContactList({
       sortField: sortField || undefined,
       sortDescending,
     });
+
+    console.log(next, newContacts);
 
     if (newContacts?.length > 0) {
       setStartingIndex(next);
@@ -156,6 +159,8 @@ export function ContactList({
   const website = useMediaQuery({
     query: "(min-width: 1280px)",
   });
+
+  console.log(startingIndex);
 
   if (!isMounted) {
     return <InitialSkeleton />;

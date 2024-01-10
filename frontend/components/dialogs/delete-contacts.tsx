@@ -40,7 +40,9 @@ export function DeleteContacts({ ids, onClose }: Props) {
       );
 
       setContacts(updatedContacts);
-      setStartingIndex(startingIndex - ids.length);
+      setStartingIndex(
+        startingIndex - ids.length < 0 ? 0 : startingIndex - ids.length
+      );
 
       toast.success("Contacts deleted successfully.", {
         action: {

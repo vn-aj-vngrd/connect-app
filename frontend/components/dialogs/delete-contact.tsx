@@ -53,7 +53,7 @@ export function DeleteContact({
 
       setContacts(updatedContacts);
       setContact(null);
-      setStartingIndex(startingIndex - 1);
+      setStartingIndex(startingIndex - 1 < 0 ? 0 : startingIndex - 1);
 
       toast.success("Contact deleted successfully.", {
         action: {
