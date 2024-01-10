@@ -33,6 +33,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useContactStore } from "@/store/useContactStore";
 
 type Props = {
   type: "add" | "edit";
@@ -43,6 +44,8 @@ type Props = {
 };
 
 export function TagForm({ type, tag, isAddOnContact }: Props) {
+  const { setContact, setContacts, contact, contacts } = useContactStore();
+
   const [isPending, setIsPending] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
 
@@ -85,6 +88,26 @@ export function TagForm({ type, tag, isAddOnContact }: Props) {
         };
 
         await editTag(formDataWithId);
+
+        if (contact) {
+          setContact({
+            ...contact,
+            tags: contact.tags.map((tag) =>
+              tag.id === formDataWithId.id ? formDataWithId : tag
+            ),
+          });
+        }
+
+        if (contacts) {
+          setContacts(
+            contacts.map((contact) => ({
+              ...contact,
+              tags: contact.tags.map((tag) =>
+                tag.id === formDataWithId.id ? formDataWithId : tag
+              ),
+            }))
+          );
+        }
 
         toast.success("Tag edited successfully.", {
           action: {

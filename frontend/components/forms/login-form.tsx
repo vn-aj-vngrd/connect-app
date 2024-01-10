@@ -39,7 +39,7 @@ export function LoginForm({ className, ...props }: FormProps) {
   const mutation = useMutation({
     mutationFn: login,
     onSuccess: () => {
-      router.push("/all");
+      window.location.href = "/all";
     },
     onError: (error: AxiosError<Response<Error>>) => {
       setMessage("");
