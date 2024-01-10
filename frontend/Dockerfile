@@ -1,19 +1,18 @@
 FROM node:18-alpine as builder
-WORKDIR /my-space
+WORKDIR /connect-app
 
 COPY package.json package-lock.json ./
-COPY .env.production .env
 RUN npm ci
 COPY . .
 RUN npm run build
 
 FROM node:18-alpine as runner
-WORKDIR /my-space
-COPY --from=builder /my-space/package.json .
-COPY --from=builder /my-space/package-lock.json .
-COPY --from=builder /my-space/next.config.js ./
-COPY --from=builder /my-space/public ./public
-COPY --from=builder /my-space/.next/standalone ./
-COPY --from=builder /my-space/.next/static ./.next/static
+WORKDIR /connect-app
+COPY --from=builder /connect-app/package.json .
+COPY --from=builder /connect-app/package-lock.json .
+COPY --from=builder /connect-app/next.config.js ./
+COPY --from=builder /connect-app/public ./public
+COPY --from=builder /connect-app/.next/standalone ./
+COPY --from=builder /connect-app/.next/static ./.next/static
 EXPOSE 3000
 ENTRYPOINT ["npm", "start"]
