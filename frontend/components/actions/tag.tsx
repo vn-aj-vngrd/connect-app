@@ -95,7 +95,7 @@ export function Tag({ ids, selectedTagIds: _selectedTagIds, onClose }: Props) {
         <Tooltip>
           <TooltipTrigger asChild>
             <DropdownMenuTrigger asChild>
-              <Button size="icon" variant="ghost">
+              <Button size="icon" variant="ghost" className="rounded-full">
                 <TagIcon className="w-5 h-5" />
               </Button>
             </DropdownMenuTrigger>

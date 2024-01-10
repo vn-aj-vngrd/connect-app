@@ -87,7 +87,12 @@ export function Favorite({ ids, isFavorite, onClose }: Props) {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button size="icon" variant="ghost" onClick={handleOnClick}>
+          <Button
+            size="icon"
+            variant="ghost"
+            onClick={handleOnClick}
+            className="rounded-full"
+          >
             {isFavorite ? (
               <StarIcon className="w-5 h-5 text-yellow-500 fill-yellow-500" />
             ) : (
