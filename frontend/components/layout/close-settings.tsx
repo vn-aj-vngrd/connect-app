@@ -8,7 +8,7 @@ export function CloseSettings() {
   const router = useRouter();
 
   function handleClose() {
-    router.push("/");
+    router.push("/all");
   }
 
   return (
