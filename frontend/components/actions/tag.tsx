@@ -28,7 +28,7 @@ type Props = {
   onClose?: () => void;
 };
 
-export function Tags({ ids, selectedTagIds: _selectedTagIds, onClose }: Props) {
+export function Tag({ ids, selectedTagIds: _selectedTagIds, onClose }: Props) {
   const [selectedTagIds, setSelectedTagIds] =
     useState<number[]>(_selectedTagIds);
 

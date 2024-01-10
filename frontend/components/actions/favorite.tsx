@@ -19,7 +19,7 @@ type Props = {
   onClose?: () => void;
 };
 
-export function Favorites({ ids, isFavorite, onClose }: Props) {
+export function Favorite({ ids, isFavorite, onClose }: Props) {
   const pathname = usePathname();
 
   const {

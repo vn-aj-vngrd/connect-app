@@ -29,8 +29,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Tags } from "../actions/tags";
-import { Favorites } from "../actions/favorites";
+import { Tag } from "../actions/tag";
+import { Favorite } from "../actions/favorite";
+import { Export } from "../actions/export";
 
 type Props = {
   contact: ContactWithTags;
@@ -66,71 +67,6 @@ export function Contact({ contact }: Props) {
         });
     } catch {
       toast.error("Failed to favorite contact", {
-        action: {
-          label: "Close",
-          onClick: () => {
-            toast.dismiss();
-          },
-        },
-      });
-    }
-  }
-
-  async function handleExport() {
-    try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/contacts/${contact.id}/export`;
-
-      const res = await fetch(apiUrl, {
-        method: "GET",
-        credentials: "include",
-      });
-
-      if (!res.ok) {
-        if (res.status === 404) {
-          toast.error("No contact found.", {
-            action: {
-              label: "Close",
-              onClick: () => {
-                toast.dismiss();
-              },
-            },
-          });
-
-          return;
-        }
-
-        toast.error("Something went wrong.", {
-          action: {
-            label: "Close",
-            onClick: () => {
-              toast.dismiss();
-            },
-          },
-        });
-
-        return;
-      }
-
-      const data = await res.blob();
-
-      const url = window.URL.createObjectURL(new Blob([data]));
-      const link = document.createElement("a");
-      link.href = url;
-      const filename = `${contact.firstName} ${contact.lastName || ""}.json`;
-      link.setAttribute("download", filename);
-      document.body.appendChild(link);
-      link.click();
-
-      toast.success("Contact exported!", {
-        action: {
-          label: "Close",
-          onClick: () => {
-            toast.dismiss();
-          },
-        },
-      });
-    } catch {
-      toast.error("Failed to export contact", {
         action: {
           label: "Close",
           onClick: () => {
@@ -223,12 +159,12 @@ export function Contact({ contact }: Props) {
         </div>
 
         <div className="flex flex-row items-center">
-          <Tags
+          <Tag
             ids={[contact.id]}
             selectedTagIds={contact?.tags?.map((tag) => tag.id) || []}
           />
 
-          <Favorites
+          <Favorite
             ids={[contact.id]}
             isFavorite={contact.isFavorite || false}
           />
@@ -240,7 +176,7 @@ export function Contact({ contact }: Props) {
             <DropdownMenuContent align="end" className="mt-1">
               <ContactForm contact={contact} type="edit" />
 
-              <DropdownMenuItem onClick={handleExport}>Export</DropdownMenuItem>
+              <Export contact={contact} />
 
               <DropdownMenuSeparator />
 

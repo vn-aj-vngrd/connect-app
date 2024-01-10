@@ -34,8 +34,8 @@ import {
 import { DeleteContacts } from "../../dialogs/delete-contacts";
 import { ExportContactsForm } from "../../forms/export-contacts-form";
 import { useViewstore } from "@/store/useViewStore";
-import { Favorites } from "../../actions/favorites";
-import { Tags } from "../../actions/tags";
+import { Favorite } from "../../actions/favorite";
+import { Tag } from "../../actions/tag";
 import { cn } from "@/lib/utils";
 import { InitialSkeleton } from "./initial-skeleton";
 import { EmptyState } from "./empty-state";
@@ -191,7 +191,7 @@ export function ContactList({
                 </TableHead>
 
                 <TableHead className="flex items-center justify-end">
-                  <Tags
+                  <Tag
                     ids={selectedIds}
                     selectedTagIds={
                       contacts
@@ -203,7 +203,7 @@ export function ContactList({
                     }}
                   />
 
-                  <Favorites
+                  <Favorite
                     ids={selectedIds}
                     isFavorite={
                       contacts.find((contact) => contact.id === selectedIds[0])

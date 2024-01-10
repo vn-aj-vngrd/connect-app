@@ -26,8 +26,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useMediaQuery } from "react-responsive";
-import { Favorites } from "../actions/favorites";
+import { Favorite } from "../actions/favorite";
 
 export function ContactPreview() {
   const pathname = usePathname();
@@ -177,7 +176,7 @@ export function ContactPreview() {
           </TooltipProvider>
 
           <div>
-            <Favorites
+            <Favorite
               ids={[contact?.id || 0]}
               isFavorite={contact?.isFavorite || false}
             />
