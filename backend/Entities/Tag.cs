@@ -16,6 +16,5 @@ public class Tag
 
     public AppUser AppUser { get; set; } = null!;
 
-    [JsonIgnore]
     public List<Contact> Contacts { get; } = new();
 }

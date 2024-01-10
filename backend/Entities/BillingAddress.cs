@@ -18,6 +18,5 @@ public class BillingAddress
 
     public long? ContactId { get; set; }
 
-    [JsonIgnore]
     public Contact? Contact { get; set; } = default!;
 }

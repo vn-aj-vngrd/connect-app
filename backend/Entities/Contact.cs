@@ -14,10 +14,8 @@ public class Contact
 
     public string? Email { get; set; }
 
-    // [JsonIgnore]
     public DeliveryAddress? DeliveryAddress { get; set; }
 
-    // [JsonIgnore]
     public BillingAddress? BillingAddress { get; set; }
 
     public string? Website { get; set; }
