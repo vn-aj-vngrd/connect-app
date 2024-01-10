@@ -90,8 +90,6 @@ export function ContactList({
       sortDescending,
     });
 
-    console.log(next, newContacts);
-
     if (newContacts?.length > 0) {
       setStartingIndex(next);
       setContacts([...contacts, ...newContacts]);
@@ -158,8 +156,6 @@ export function ContactList({
   const website = useMediaQuery({
     query: "(min-width: 1280px)",
   });
-
-  console.log(startingIndex);
 
   if (!isMounted) {
     return <InitialSkeleton />;
