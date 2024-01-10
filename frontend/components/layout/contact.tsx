@@ -174,17 +174,23 @@ export function Contact({ contact }: Props) {
               <MoreVerticalIcon className="w-5 h-5" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="mt-1">
-              <ContactForm contact={contact} type="edit" />
+              <DropdownMenuItem asChild>
+                <ContactForm contact={contact} type="edit" />
+              </DropdownMenuItem>
 
-              <Export contact={contact} />
+              <DropdownMenuItem asChild>
+                <Export contact={contact} />
+              </DropdownMenuItem>
 
               <DropdownMenuSeparator />
 
-              <DeleteContact
-                id={contact.id}
-                name={contact.firstName + " " + (contact?.lastName || "")}
-                redirectToAll
-              />
+              <DropdownMenuItem asChild>
+                <DeleteContact
+                  id={contact.id}
+                  name={contact.firstName + " " + (contact?.lastName || "")}
+                  redirectToAll
+                />
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

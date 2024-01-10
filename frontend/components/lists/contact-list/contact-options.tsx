@@ -1,4 +1,5 @@
 import { ContactWithTags } from "@/app/actions";
+import { Export } from "@/components/actions/export";
 import { DeleteContact } from "@/components/dialogs/delete-contact";
 import { ContactForm } from "@/components/forms/contact-form";
 import { Button } from "@/components/ui/button";
@@ -70,6 +71,10 @@ export function ContactOptions({ contact, view }: ContactOptionsProps) {
               contact={contact}
               onClose={() => setOpen(false)}
             />
+          </DropdownMenuItem>
+
+          <DropdownMenuItem asChild>
+            <Export contact={contact} />
           </DropdownMenuItem>
 
           <DropdownMenuSeparator />
