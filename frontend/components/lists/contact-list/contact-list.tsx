@@ -79,8 +79,7 @@ export function ContactList({
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   async function loadMore() {
-    const next =
-      contacts.length < 10 ? contacts.length : startingIndex + 10;
+    const next = contacts.length < 10 ? contacts.length : startingIndex + 10;
 
     const { data: newContacts } = await getContacts({
       startingIndex: next,
@@ -177,7 +176,25 @@ export function ContactList({
           <TableRow className="border-none hover:bg-transparent ">
             {!!selectedIds.length ? (
               <>
-                <TableHead colSpan={4}>
+                <TableHead
+                  colSpan={
+                    phone && email && website
+                      ? 4
+                      : phone && email
+                      ? 3
+                      : phone && website
+                      ? 3
+                      : email && website
+                      ? 3
+                      : phone
+                      ? 2
+                      : email
+                      ? 2
+                      : website
+                      ? 2
+                      : 1
+                  }
+                >
                   <div className="flex items-center">
                     <Checkbox
                       className={` items-center justify-center ${
