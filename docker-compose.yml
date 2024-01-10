@@ -11,6 +11,8 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+    env_file:
+      - ./frontend/.env.production
 
   api:
     build:
@@ -41,4 +43,3 @@ services:
 networks:
   mssql-network:
     driver: bridge
-
