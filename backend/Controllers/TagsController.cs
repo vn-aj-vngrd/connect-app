@@ -24,7 +24,18 @@ public class TagsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Tag>>> GetTag()
     {
-        return await _context.Tags.OrderBy(t => t.Name).ToListAsync();
+        var tag = await _context
+            .Tags
+            .Where(t => t.AppUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+            .OrderBy(t => t.Name)
+            .ToListAsync();
+
+        if (tag == null)
+        {
+            return NotFound();
+        }
+
+        return tag;
     }
 
     // GET: api/Tags/5
@@ -33,7 +44,7 @@ public class TagsController : ControllerBase
     {
         var tag = await _context.Tags.FindAsync(id);
 
-        if (tag == null)
+        if (tag == null || tag.AppUserId != User.FindFirstValue(ClaimTypes.NameIdentifier))
         {
             return NotFound();
         }
@@ -51,16 +62,16 @@ public class TagsController : ControllerBase
             return BadRequest();
         }
 
+        var tag = await _context.Tags.FindAsync(id);
+
+        if (tag == null || tag.AppUserId != User.FindFirstValue(ClaimTypes.NameIdentifier))
+        {
+            return NotFound();
+        }
+
         if (await _context.Tags.AnyAsync(t => t.Name == request.Name))
         {
             return BadRequest(new { message = "Tag name already exists" });
-        }
-
-        var tag = await _context.Tags.FindAsync(id);
-
-        if (tag == null)
-        {
-            return NotFound();
         }
 
         tag.Name = request.Name[0].ToString().ToUpper() + request.Name[1..];
@@ -124,7 +135,7 @@ public class TagsController : ControllerBase
     public async Task<IActionResult> DeleteTag(long id)
     {
         var tag = await _context.Tags.FindAsync(id);
-        if (tag == null)
+        if (tag == null || tag.AppUserId != User.FindFirstValue(ClaimTypes.NameIdentifier))
         {
             return NotFound();
         }

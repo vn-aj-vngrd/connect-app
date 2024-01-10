@@ -149,7 +149,7 @@ public partial class ContactsController : ControllerBase
             .Where(c => c.Id == id)
             .FirstOrDefaultAsync();
 
-        if (contact == null)
+        if (contact == null || contact.AppUserId != User.FindFirstValue(ClaimTypes.NameIdentifier))
         {
             return NotFound();
         }
@@ -452,7 +452,8 @@ public partial class ContactsController : ControllerBase
     public async Task<IActionResult> DeleteContact(long id)
     {
         var contact = await _context.Contacts.FindAsync(id);
-        if (contact == null)
+
+        if (contact == null || contact.AppUserId != User.FindFirstValue(ClaimTypes.NameIdentifier))
         {
             return NotFound();
         }
@@ -751,7 +752,11 @@ public partial class ContactsController : ControllerBase
                     }
                     else
                     {
-                        var newTag = new Tag { Name = tag.Name };
+                        var newTag = new Tag
+                        {
+                            Name = tag.Name,
+                            AppUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+                        };
 
                         _context.Tags.Add(newTag);
                         await _context.SaveChangesAsync();
