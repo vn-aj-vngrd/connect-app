@@ -5,6 +5,7 @@ using System.Text.Json;
 using ConnectApi.Constants;
 using ConnectApi.Context;
 using ConnectApi.Entities;
+using ConnectApi.Imports;
 using ConnectApi.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -699,7 +700,7 @@ public partial class ContactsController : ControllerBase
         var byteArray = new byte[file.Length];
         await file.OpenReadStream().ReadAsync(byteArray);
         var json = Encoding.UTF8.GetString(byteArray);
-        var contacts = JsonSerializer.Deserialize<List<Contact>>(json);
+        var contacts = JsonSerializer.Deserialize<List<ImportContactRequest>>(json);
 
         if (contacts == null || contacts.Count == 0)
         {
