@@ -537,6 +537,7 @@ public partial class ContactsController : ControllerBase
                                 Province = c.BillingAddress.Province
                             }
                             : null,
+                        c.Tags,
                         c.AppUserId
                     }
             )
@@ -612,6 +613,7 @@ public partial class ContactsController : ControllerBase
                                         Province = c.BillingAddress.Province
                                     }
                                     : null,
+                                c.Tags,
                                 c.AppUserId
                             }
                     )
@@ -658,6 +660,7 @@ public partial class ContactsController : ControllerBase
                                         Province = c.BillingAddress.Province
                                     }
                                     : null,
+                                c.Tags,
                                 c.AppUserId
                             }
                     );
@@ -722,9 +725,49 @@ public partial class ContactsController : ControllerBase
             };
 
             _context.Contacts.Add(newContact);
-        }
+            await _context.SaveChangesAsync();
 
-        await _context.SaveChangesAsync();
+            if (newContact.Tags != null && newContact.Tags.Count != 0)
+            {
+                foreach (var tag in newContact.Tags)
+                {
+                    var existingTag = await _context
+                        .Tags
+                        .Where(
+                            t => string.Equals(t.Name, tag.Name, StringComparison.OrdinalIgnoreCase)
+                        )
+                        .FirstOrDefaultAsync();
+
+                    if (existingTag != null)
+                    {
+                        var contactTag = new ContactTag
+                        {
+                            ContactId = newContact.Id,
+                            TagId = existingTag.Id
+                        };
+
+                        _context.ContactTags.Add(contactTag);
+                        await _context.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        var newTag = new Tag { Name = tag.Name };
+
+                        _context.Tags.Add(newTag);
+                        await _context.SaveChangesAsync();
+
+                        var contactTag = new ContactTag
+                        {
+                            ContactId = newContact.Id,
+                            TagId = newTag.Id
+                        };
+
+                        _context.ContactTags.Add(contactTag);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+            }
+        }
 
         return Ok(contacts);
     }
