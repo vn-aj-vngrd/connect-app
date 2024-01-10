@@ -728,14 +728,16 @@ public partial class ContactsController : ControllerBase
             _context.Contacts.Add(newContact);
             await _context.SaveChangesAsync();
 
-            if (newContact.Tags != null && newContact.Tags.Count != 0)
+            if (contact.Tags != null && contact.Tags.Count != 0)
             {
-                foreach (var tag in newContact.Tags)
+                foreach (var tag in contact.Tags)
                 {
                     var existingTag = await _context
                         .Tags
                         .Where(
-                            t => string.Equals(t.Name, tag.Name, StringComparison.OrdinalIgnoreCase)
+                            t =>
+                                t.Name == tag.Name
+                                && t.AppUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)
                         )
                         .FirstOrDefaultAsync();
 
