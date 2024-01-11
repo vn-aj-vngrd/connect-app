@@ -69,7 +69,15 @@ public class TagsController : ControllerBase
             return NotFound();
         }
 
-        if (await _context.Tags.AnyAsync(t => t.Name == request.Name))
+        if (
+            await _context
+                .Tags
+                .AnyAsync(
+                    t =>
+                        t.Name == request.Name
+                        && t.AppUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)
+                )
+        )
         {
             return BadRequest(new { message = "Tag name already exists" });
         }
