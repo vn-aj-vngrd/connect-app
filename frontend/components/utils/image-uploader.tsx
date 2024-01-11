@@ -115,37 +115,55 @@ export function ImageUploader({
               />
 
               <div className="flex flex-row items-center gap-2">
-                <Button
-                  type="button"
-                  size="icon"
-                  className="rounded-full"
-                  variant="outline"
-                  onClick={handleUploadImage}
-                >
-                  <label
-                    htmlFor="upload"
-                    className="flex items-center justify-center w-full h-full cursor-pointer"
-                  >
-                    <UploadIcon
-                      height={20}
-                      width={20}
-                      className="text-muted-foreground"
-                    />
-                  </label>
-                </Button>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        type="button"
+                        size="icon"
+                        className="rounded-full"
+                        variant="outline"
+                        onClick={handleUploadImage}
+                      >
+                        <label
+                          htmlFor="upload"
+                          className="flex items-center justify-center w-full h-full cursor-pointer"
+                        >
+                          <UploadIcon
+                            height={20}
+                            width={20}
+                            className="text-muted-foreground"
+                          />
+                        </label>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Replace Image</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
 
-                <Button
-                  onClick={handleRemoveImage}
-                  size="icon"
-                  className="rounded-full"
-                  variant="outline"
-                >
-                  <TrashIcon
-                    height={20}
-                    width={20}
-                    className="text-muted-foreground"
-                  />
-                </Button>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        onClick={handleRemoveImage}
+                        size="icon"
+                        className="rounded-full"
+                        variant="outline"
+                      >
+                        <TrashIcon
+                          height={20}
+                          width={20}
+                          className="text-muted-foreground"
+                        />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Remove Image</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             </div>
           ) : (
