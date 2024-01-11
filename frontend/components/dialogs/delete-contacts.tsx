@@ -81,9 +81,9 @@ export function DeleteContacts({ ids, onClose }: Props) {
           <AlertDialogDescription>
             {/* className="break-all" */}
             <p>
-              This action cannot be undone. This will permanently delete the
-              selected contacts (
-              <span className="font-semibold">{ids.length}</span>).
+              This action cannot be undone. This will permanently delete the{" "}
+              <span className="font-semibold">{ids.length}</span> selected
+              contact{ids.length > 1 ? "s" : ""}.
             </p>
           </AlertDialogDescription>
         </AlertDialogHeader>
