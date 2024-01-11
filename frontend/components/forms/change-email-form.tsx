@@ -39,16 +39,27 @@ export function ChangeEmailForm() {
     try {
       setIsPending(true);
 
-      await changeEmail(formData);
+      const message = await changeEmail(formData);
 
-      toast.success("Email changed successfully.", {
-        action: {
-          label: "Close",
-          onClick: () => {
-            toast.dismiss();
+      if (message) {
+        form.setError("newEmail", {
+          message,
+        });
+
+        return;
+      }
+
+      toast.success(
+        "An email has been sent to your new email address. Please check your inbox and confirm.",
+        {
+          action: {
+            label: "Close",
+            onClick: () => {
+              toast.dismiss();
+            },
           },
-        },
-      });
+        }
+      );
 
       setOpen(false);
     } catch (error: unknown) {
@@ -61,7 +72,7 @@ export function ChangeEmailForm() {
             toast.dismiss();
           },
         },
-      });  
+      });
     } finally {
       setIsPending(false);
     }
