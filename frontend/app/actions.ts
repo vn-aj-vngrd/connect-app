@@ -66,7 +66,7 @@ export async function getUser(): Promise<User> {
   return res.json();
 }
 
-export async function updateUser(data: User): Promise<User> {
+export async function updateUser(data: User): Promise<string | undefined> {
   const api = `${process.env.NEXT_PUBLIC_API_URL}/auth/user`;
 
   const headers = getHeaders();
@@ -83,21 +83,20 @@ export async function updateUser(data: User): Promise<User> {
   });
 
   if (!res.ok) {
-    const error = (await res.json()) as {
-      message: Response<null>["message"];
-      errors: Response<null>["errors"];
-    };
+    if (res.status === 400) {
+      const { message } = await res.json();
 
-    throw new Error(
-      error.errors?.[0]?.description || error?.message || "Something went wrong"
-    );
+      return message;
+    }
+
+    throw new Error("Failed to update user");
   }
 
   revalidate({
     user: true,
   });
 
-  return res.json();
+  return;
 }
 
 export async function changeEmail(data: NewEmail): Promise<string | undefined> {

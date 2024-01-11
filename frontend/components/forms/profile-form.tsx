@@ -44,7 +44,23 @@ export function ProfileForm({ user }: Props) {
 
       setIsPending(true);
 
-      await updateUser(formData);
+      const message = await updateUser(formData);
+
+      if (message) {
+        if (message === "Image size cannot exceed 1MB.") {
+          form.setError("image", {
+            message,
+          });
+        }
+
+        if (message === "Username already exists.") {
+          form.setError("userName", {
+            message,
+          });
+        }
+
+        return;
+      }
 
       toast.success("Profile updated successfully.", {
         action: {
@@ -109,6 +125,7 @@ export function ProfileForm({ user }: Props) {
               <FormDescription>
                 Your profile image is used to identify you.
               </FormDescription>
+              <FormMessage className="pb-2" />
             </FormItem>
 
             <FormField
