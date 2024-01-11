@@ -42,7 +42,15 @@ export function DeleteAccountForm() {
     try {
       setIsPending(true);
 
-      await deleteAccount(formData);
+      const message = await deleteAccount(formData);
+
+      if (message) {
+        form.setError("password", {
+          message,
+        });
+
+        return;
+      }
 
       toast.success("Account deleted successfully.", {
         action: {

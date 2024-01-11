@@ -168,7 +168,9 @@ export async function changePassword(data: ChangePassword) {
   return;
 }
 
-export async function deleteAccount(data: Password) {
+export async function deleteAccount(
+  data: Password
+): Promise<string | undefined> {
   const api = `${process.env.NEXT_PUBLIC_API_URL}/auth/delete-account`;
 
   const headers = getHeaders();
@@ -184,6 +186,12 @@ export async function deleteAccount(data: Password) {
   });
 
   if (!res.ok) {
+    if (res.status === 400) {
+      const { message } = await res.json();
+
+      return message;
+    }
+
     throw new Error("Failed to delete account");
   }
 
