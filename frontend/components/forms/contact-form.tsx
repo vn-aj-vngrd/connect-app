@@ -170,11 +170,11 @@ export function ContactForm({ type, contact, isEditIcon, onClose }: Props) {
 
         setContacts(updatedContacts);
 
-        // const updatedContact = updatedContacts.find(
-        //   (updatedContact) => updatedContact.id === contact!.id
-        // );
+        const updatedContact = updatedContacts.find(
+          (updatedContact) => updatedContact.id === contact!.id
+        );
 
-        // setContact(contact ? updatedContact || null : null);
+        setContact(contact ? updatedContact || null : null);
 
         toast.success("Contact updated successfully.", {
           action: {
