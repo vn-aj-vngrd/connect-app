@@ -49,17 +49,14 @@ export function ChangeEmailForm() {
         return;
       }
 
-      toast.success(
-        "An email has been sent to your new email address. Please check your inbox and confirm.",
-        {
-          action: {
-            label: "Close",
-            onClick: () => {
-              toast.dismiss();
-            },
+      toast.success("An email has been sent to your new email address.", {
+        action: {
+          label: "Close",
+          onClick: () => {
+            toast.dismiss();
           },
-        }
-      );
+        },
+      });
 
       setOpen(false);
     } catch (error: unknown) {

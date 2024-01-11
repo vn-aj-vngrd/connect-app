@@ -398,7 +398,7 @@ public class AuthController : ControllerBase
 
         if (request.Image != null && request.Image.Length > AppConstants.MaxImageSize)
         {
-            return BadRequest("Image size cannot exceed 1MB");
+            return BadRequest("Image size cannot exceed 1MB.");
         }
 
         if (request.UserName != null && user.UserName != request.UserName)
@@ -407,7 +407,7 @@ public class AuthController : ControllerBase
 
             if (isUserNameTaken != null)
             {
-                return BadRequest(new { Message = "Username already exists" });
+                return BadRequest(new { Message = "Username already exists." });
             }
         }
 
