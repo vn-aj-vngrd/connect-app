@@ -31,6 +31,7 @@ type Props = {
 export function Tag({ ids, selectedTagIds: _selectedTagIds, onClose }: Props) {
   const [selectedTagIds, setSelectedTagIds] =
     useState<number[]>(_selectedTagIds);
+  const [open, setOpen] = useState<boolean>(false);
 
   const {
     contact,
@@ -77,6 +78,8 @@ export function Tag({ ids, selectedTagIds: _selectedTagIds, onClose }: Props) {
       });
 
       onClose?.();
+
+      setOpen(false);
     } catch (error) {
       toast.error("Something went wrong.", {
         action: {
@@ -90,7 +93,7 @@ export function Tag({ ids, selectedTagIds: _selectedTagIds, onClose }: Props) {
   }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
