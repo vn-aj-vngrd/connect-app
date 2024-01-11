@@ -26,12 +26,16 @@ Make sure you have the following prerequisites installed on your system:
 
 ## Preparation
 
-1. Starting with backend preparation, let's modify the AppHost located in "backend/appsettings.json" and change it to your local IP address.
+1. Starting with backend preparation, let's modify the AppHost located in "backend/appsettings.json" and change it to your local IP address. To identify your local IP address, run the following command:
+
+   ```bash
+   ipconfig
+   ```
+
 2. Run the following commands in the backend directory:
 
    ```bash
    cd backend
-   dotnet ef migrations add InitialCreate
    dotnet ef database update
    ```
 
