@@ -32,24 +32,22 @@ Make sure you have the following prerequisites installed on your system:
    ipconfig
    ```
 
-2. Run the following commands in the backend directory:
+2. Now in the frontend side, let's modify the NEXT_PUBLIC_API_URL environment variable located in "frontend/.env.production" and change it to your local IP address.
+
+## Build
+
+1. In the root directory of the project, run this command to start building the docker image.
+
+   ```bash
+   docker-compose up -d --build
+   ```
+
+2. Run the following commands in the backend directory to intialize the database:
 
    ```bash
    cd backend
    dotnet ef database update
    ```
-
-   The commands above will setup the database and the initial migration.
-
-3. Now in the frontend side, let's modify the NEXT_PUBLIC_API_URL environment variable located in "frontend/.env.production" and change it to your local IP address.
-
-## Build
-
-In the root directory of the project, run this command to start building the docker image.
-
-```bash
-docker-compose up -d --build
-```
 
 ## Run
 
