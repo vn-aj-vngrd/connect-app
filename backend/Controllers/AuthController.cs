@@ -401,6 +401,16 @@ public class AuthController : ControllerBase
             return BadRequest("Image size cannot exceed 1MB");
         }
 
+        if (request.UserName != null && user.UserName != request.UserName)
+        {
+            var isUserNameTaken = await _userManager.FindByNameAsync(request.UserName);
+
+            if (isUserNameTaken != null)
+            {
+                return BadRequest(new { Message = "Username already exists" });
+            }
+        }
+
         user.Image = request.Image;
         user.FirstName = request.FirstName;
         user.LastName = request.LastName;
