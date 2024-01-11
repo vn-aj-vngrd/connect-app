@@ -42,7 +42,23 @@ export function ChangePasswordForm() {
     try {
       setIsPending(true);
 
-      await changePassword(formData);
+      const message = await changePassword(formData);
+
+      if (message) {
+        if (message === "Please enter a new password.") {
+          form.setError("newPassword", {
+            message,
+          });
+        }
+
+        if (message === "Current password is incorrect.") {
+          form.setError("currentPassword", {
+            message,
+          });
+        }
+
+        return;
+      }
 
       toast.success("Password changed successfully.", {
         action: {

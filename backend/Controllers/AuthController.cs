@@ -434,6 +434,11 @@ public class AuthController : ControllerBase
             return BadRequest(new { Message = "Please enter a new password." });
         }
 
+        if (!await _userManager.CheckPasswordAsync(user, request.CurrentPassword))
+        {
+            return BadRequest(new { Message = "Current password is incorrect." });
+        }
+
         var result = await _userManager.ChangePasswordAsync(
             user,
             request.CurrentPassword,
