@@ -245,6 +245,9 @@ export async function getTag(id: number): Promise<TagWithId> {
     credentials: "include",
     headers,
     cache: "no-store",
+    next: {
+      tags: ["tag"],
+    },
   });
 
   if (!res.ok) {
@@ -275,6 +278,7 @@ export async function addTag(data: Tag): Promise<Response> {
   }
 
   revalidate({
+    tag: true,
     tags: true,
     contact: true,
     contacts: true,
@@ -306,6 +310,7 @@ export async function editTag(data: TagWithId) {
   }
 
   revalidate({
+    tag: true,
     tags: true,
     contact: true,
     contacts: true,
@@ -329,6 +334,7 @@ export async function deleteTag(id: number) {
   });
 
   revalidate({
+    tag: true,
     tags: true,
     contact: true,
     contacts: true,
@@ -702,9 +708,10 @@ export async function tagContacts(ids: number[], tagIds: number[]) {
   return;
 }
 
-export function revalidate({
+export async function revalidate({
   contact = false,
   contacts = false,
+  tag = false,
   tags = false,
   user = false,
 }) {
@@ -714,6 +721,10 @@ export function revalidate({
 
   if (contacts) {
     revalidateTag("/contacts");
+  }
+
+  if (tag) {
+    revalidateTag("/tag");
   }
 
   if (tags) {

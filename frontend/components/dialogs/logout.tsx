@@ -4,6 +4,7 @@ import { LogOutIcon } from "lucide-react";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { revalidate } from "@/app/actions";
 
 export function Logout() {
   const router = useRouter();
@@ -18,6 +19,13 @@ export function Logout() {
       });
 
       if (res.ok) {
+        revalidate({
+          contact: true,
+          contacts: true,
+          tags: true,
+          tag: true,
+          user: true,
+        });
         return router.push("/login");
       }
     } catch (error: unknown) {

@@ -19,7 +19,7 @@ import { Form } from "@/components/ui/form";
 import { toast } from "sonner";
 import { ImportIcon } from "lucide-react";
 import { FileUploader } from "../utils/file-uploader";
-import { revalidateContacts } from "@/app/actions";
+import { revalidate } from "@/app/actions";
 
 const formSchema = z.object({
   file: z.any(),
@@ -86,7 +86,10 @@ export function ImportContactsForm() {
         return;
       }
 
-      revalidateContacts();
+      revalidate({
+        contacts: true,
+        tags: true,
+      });
 
       toast.success("Contacts imported successfully.", {
         action: {
