@@ -20,12 +20,15 @@ import { toast } from "sonner";
 import { ImportIcon } from "lucide-react";
 import { FileUploader } from "../utils/file-uploader";
 import { revalidate } from "@/app/actions";
+import { useContactStore } from "@/store/useContactStore";
 
 const formSchema = z.object({
   file: z.any(),
 });
 
 export function ImportContactsForm() {
+  const { setContacts } = useContactStore((state) => state);
+
   const [isPending, setIsPending] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
 
@@ -90,6 +93,8 @@ export function ImportContactsForm() {
         contacts: true,
         tags: true,
       });
+
+      setContacts([]);
 
       toast.success("Contacts imported successfully.", {
         action: {

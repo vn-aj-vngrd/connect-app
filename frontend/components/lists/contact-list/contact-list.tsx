@@ -79,7 +79,7 @@ export function ContactList({
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   async function loadMore() {
-    const next = contacts.length < 10 ? 0 : startingIndex + 10;
+    const next = contacts.length < 10 ? contacts.length : startingIndex + 10;
 
     const { data: newContacts } = await getContacts({
       startingIndex: next,
@@ -90,16 +90,9 @@ export function ContactList({
       sortDescending,
     });
 
-    console.log(newContacts);
-
     if (newContacts?.length > 0) {
       setStartingIndex(next);
-
-      const filteredContacts = newContacts.filter(
-        (contact) => !contacts.some((c) => c.id === contact.id)
-      );
-
-      setContacts([...filteredContacts, ...contacts]);
+      setContacts([...contacts, ...newContacts]);
     }
   }
 
