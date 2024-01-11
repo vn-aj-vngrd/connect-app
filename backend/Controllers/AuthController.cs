@@ -281,6 +281,11 @@ public class AuthController : ControllerBase
             return BadRequest(new { Message = "Please enter a new email." });
         }
 
+        if (await _userManager.FindByEmailAsync(request.NewEmail) != null)
+        {
+            return BadRequest(new { Message = "Email already exists" });
+        }
+
         var changeEmailLink = await GenerateChangeEmailLinkAndSendEmailAsync(
             user,
             request.NewEmail

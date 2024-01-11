@@ -121,7 +121,15 @@ public class TagsController : ControllerBase
             return BadRequest("You have reached the maximum number of tags.");
         }
 
-        if (await _context.Tags.AnyAsync(t => t.Name == tag.Name))
+        if (
+            await _context
+                .Tags
+                .AnyAsync(
+                    t =>
+                        t.Name == tag.Name
+                        && t.AppUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)
+                )
+        )
         {
             return BadRequest(new { message = "Tag name already exists" });
         }
@@ -158,10 +166,14 @@ public class TagsController : ControllerBase
     [HttpGet("exists")]
     public async Task<ActionResult<bool>> TagExists(string name)
     {
+        string cleanName = name[0].ToString().ToUpper() + name[1..];
+
         return await _context
             .Tags
             .AnyAsync(
-                t => t.Name == name && t.AppUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)
+                t =>
+                    t.Name == cleanName
+                    && t.AppUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)
             );
     }
 
