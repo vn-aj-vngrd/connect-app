@@ -63,6 +63,15 @@ export const signupSchema = z
       })
       .max(32, {
         message: "Password must be at most 32 characters.",
+      })
+      .refine((value) => /[^\w]/.test(value), {
+        message: "Password must have at least one non-alphanumeric character.",
+      })
+      .refine((value) => /\d/.test(value), {
+        message: "Password must have at least one digit ('0'-'9').",
+      })
+      .refine((value) => /[A-Z]/.test(value), {
+        message: "Password must have at least one uppercase letter ('A'-'Z').",
       }),
     confirmPassword: z.string(),
   })
@@ -91,6 +100,15 @@ export const resetPasswordSchema = z
       })
       .max(32, {
         message: "Password must be at most 32 characters.",
+      })
+      .refine((value) => /[^\w]/.test(value), {
+        message: "Password must have at least one non-alphanumeric character.",
+      })
+      .refine((value) => /\d/.test(value), {
+        message: "Password must have at least one digit ('0'-'9').",
+      })
+      .refine((value) => /[A-Z]/.test(value), {
+        message: "Password must have at least one uppercase letter ('A'-'Z').",
       }),
     confirmPassword: z.string(),
   })
@@ -196,6 +214,15 @@ export const changePasswordSchema = z
       })
       .max(32, {
         message: "Password must be at most 32 characters.",
+      })
+      .refine((value) => /[^\w]/.test(value), {
+        message: "Password must have at least one non-alphanumeric character.",
+      })
+      .refine((value) => /\d/.test(value), {
+        message: "Password must have at least one digit ('0'-'9').",
+      })
+      .refine((value) => /[A-Z]/.test(value), {
+        message: "Password must have at least one uppercase letter ('A'-'Z').",
       }),
     confirmPassword: z.string(),
   })
