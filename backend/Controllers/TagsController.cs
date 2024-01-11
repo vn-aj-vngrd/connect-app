@@ -109,7 +109,7 @@ public class TagsController : ControllerBase
     // POST: api/Tags
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Tag>> PostTag(AddTagRequest tag)
+    public async Task<ActionResult<Tag>> PostTag(AddTagRequest request)
     {
         var tagCount = await _context
             .Tags
@@ -126,7 +126,7 @@ public class TagsController : ControllerBase
                 .Tags
                 .AnyAsync(
                     t =>
-                        t.Name == tag.Name
+                        t.Name == request.Name
                         && t.AppUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)
                 )
         )
@@ -136,7 +136,7 @@ public class TagsController : ControllerBase
 
         var newTag = new Tag
         {
-            Name = tag.Name[0].ToString().ToUpper() + tag.Name[1..],
+            Name = request.Name[0].ToString().ToUpper() + request.Name[1..],
             AppUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
         };
 
