@@ -113,7 +113,12 @@ export function ContactList({
 
   function sort(field: string) {
     if (sortField === field) {
-      setSortDescending(!sortDescending);
+      if (sortDescending) {
+        setSortField(null);
+        setSortDescending(false);
+      } else {
+        setSortDescending(!sortDescending);
+      }
     } else {
       setSortField(field);
       setSortDescending(false);
@@ -277,11 +282,8 @@ export function ContactList({
               </>
             ) : (
               <>
-                <TableHead className="group">
-                  <button
-                    onClick={() => sort("FirstName")}
-                    className="flex items-center gap-2 cursor-default group-hover:text-foreground"
-                  >
+                <TableHead className="group" onClick={() => sort("FirstName")}>
+                  <div className="flex items-center gap-2 cursor-default group-hover:text-foreground">
                     <h3>Name</h3>
 
                     {sortField === "FirstName" && (
@@ -293,15 +295,15 @@ export function ContactList({
                         )}
                       </>
                     )}
-                  </button>
+                  </div>
                 </TableHead>
 
                 {phone && (
-                  <TableHead className="group">
-                    <button
-                      onClick={() => sort("PhoneNumber")}
-                      className="flex items-center gap-2 cursor-default group-hover:text-foreground"
-                    >
+                  <TableHead
+                    className="group"
+                    onClick={() => sort("PhoneNumber")}
+                  >
+                    <div className="flex items-center gap-2 cursor-default group-hover:text-foreground">
                       <h3>Phone</h3>
 
                       {sortField === "PhoneNumber" && (
@@ -313,16 +315,13 @@ export function ContactList({
                           )}
                         </>
                       )}
-                    </button>
+                    </div>
                   </TableHead>
                 )}
 
                 {email && (
-                  <TableHead className="group">
-                    <button
-                      onClick={() => sort("Email")}
-                      className="flex items-center gap-2 cursor-default group-hover:text-foreground"
-                    >
+                  <TableHead className="group" onClick={() => sort("Email")}>
+                    <div className="flex items-center gap-2 cursor-default group-hover:text-foreground">
                       <h3>Email</h3>
 
                       {sortField === "Email" && (
@@ -334,16 +333,13 @@ export function ContactList({
                           )}
                         </>
                       )}
-                    </button>
+                    </div>
                   </TableHead>
                 )}
 
                 {website && (
-                  <TableHead className="group">
-                    <button
-                      onClick={() => sort("Website")}
-                      className="flex items-center gap-2 cursor-default group-hover:text-foreground"
-                    >
+                  <TableHead className="group" onClick={() => sort("Website")}>
+                    <div className="flex items-center gap-2 cursor-default group-hover:text-foreground">
                       <h3>Website</h3>
 
                       {sortField === "Website" && (
@@ -355,7 +351,7 @@ export function ContactList({
                           )}
                         </>
                       )}
-                    </button>
+                    </div>
                   </TableHead>
                 )}
 
