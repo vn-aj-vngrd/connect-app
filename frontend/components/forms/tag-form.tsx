@@ -26,7 +26,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { toast } from "sonner";
-import { addTag, editTag } from "@/app/actions";
+import { addTag, checkTagNameExists, editTag } from "@/app/actions";
 import {
   Tooltip,
   TooltipContent,
@@ -67,6 +67,16 @@ export function TagForm({ type, tag, isAddOnContact }: Props) {
       setIsPending(true);
 
       if (type === "add") {
+        const isExists = await checkTagNameExists(formData.name);
+
+        if (isExists) {
+          form.setError("name", {
+            message: "Tag name already exists.",
+          });
+
+          return;
+        }
+
         await addTag(formData);
 
         toast.success("Tag added successfully.", {
@@ -82,6 +92,16 @@ export function TagForm({ type, tag, isAddOnContact }: Props) {
       }
 
       if (type === "edit") {
+        const isExists = await checkTagNameExists(formData.name);
+
+        if (isExists) {
+          form.setError("name", {
+            message: "Tag name already exists.",
+          });
+
+          return;
+        }
+
         const formDataWithId = {
           ...formData,
           id: tag!.id,

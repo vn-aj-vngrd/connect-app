@@ -154,6 +154,17 @@ public class TagsController : ControllerBase
         return NoContent();
     }
 
+    // GET: api/Tags/exists?name=tagname
+    [HttpGet("exists")]
+    public async Task<ActionResult<bool>> TagExists(string name)
+    {
+        return await _context
+            .Tags
+            .AnyAsync(
+                t => t.Name == name && t.AppUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)
+            );
+    }
+
     private bool TagExists(long id)
     {
         return _context.Tags.Any(e => e.Id == id);

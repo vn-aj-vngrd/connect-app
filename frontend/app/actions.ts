@@ -349,6 +349,27 @@ export async function deleteTag(id: number) {
   return;
 }
 
+export async function checkTagNameExists(name: string): Promise<boolean> {
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/tags/exists?name=${name}`;
+
+  const headers = getHeaders();
+
+  if (!headers) {
+    throw new Error("Unauthorized");
+  }
+
+  const res = await fetch(apiUrl, {
+    method: "GET",
+    headers,
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to check if tag name exists");
+  }
+
+  return res.json();
+}
+
 // Contacts
 
 export type Contact = z.infer<typeof contactSchema>;
