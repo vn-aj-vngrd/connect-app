@@ -93,7 +93,9 @@ export async function updateUser(data: User): Promise<User> {
     );
   }
 
-  revalidateTag("/user");
+  revalidate({
+    user: true,
+  });
 
   return res.json();
 }
@@ -123,6 +125,10 @@ export async function changeEmail(data: NewEmail) {
       error.errors?.[0]?.description || error?.message || "Something went wrong"
     );
   }
+
+  revalidate({
+    user: true,
+  });
 
   return;
 }
@@ -156,6 +162,10 @@ export async function changePassword(data: ChangePassword) {
     );
   }
 
+  revalidate({
+    user: true,
+  });
+
   return;
 }
 
@@ -177,6 +187,10 @@ export async function deleteAccount(data: Password) {
   if (!res.ok) {
     throw new Error("Failed to delete account");
   }
+
+  revalidate({
+    user: true,
+  });
 
   redirect("/logout");
 }
@@ -260,7 +274,11 @@ export async function addTag(data: Tag): Promise<Response> {
     throw new Error(error.message);
   }
 
-  revalidateTag("/tags");
+  revalidate({
+    tags: true,
+    contact: true,
+    contacts: true,
+  });
 
   return {
     data: await res.json(),
@@ -287,7 +305,11 @@ export async function editTag(data: TagWithId) {
     throw new Error(error);
   }
 
-  revalidateTag("/tags");
+  revalidate({
+    tags: true,
+    contact: true,
+    contacts: true,
+  });
 
   return;
 }
@@ -306,7 +328,11 @@ export async function deleteTag(id: number) {
     headers,
   });
 
-  revalidateTag("/tags");
+  revalidate({
+    tags: true,
+    contact: true,
+    contacts: true,
+  });
 
   if (!res.ok) {
     throw new Error("Failed to delete tag");
@@ -473,7 +499,10 @@ export async function favoriteContact(id: number) {
     throw new Error("Failed to favorite contact");
   }
 
-  revalidateContacts();
+  revalidate({
+    contact: true,
+    contacts: true,
+  });
 
   return;
 }
@@ -508,7 +537,10 @@ export async function favoriteContacts(ids: number[], isFavorite: boolean) {
     throw new Error("Failed to favorite contacts");
   }
 
-  revalidateContacts();
+  revalidate({
+    contact: true,
+    contacts: true,
+  });
 
   return;
 }
@@ -533,7 +565,10 @@ export async function addContact(data: Contact) {
     throw new Error(error);
   }
 
-  revalidateContacts();
+  revalidate({
+    contact: true,
+    contacts: true,
+  });
 
   const contact = (await res.json()) as ContactWithTags;
 
@@ -560,7 +595,10 @@ export async function editContact(data: ContactWithId) {
     throw new Error(error);
   }
 
-  revalidateContacts();
+  revalidate({
+    contact: true,
+    contacts: true,
+  });
 
   return;
 }
@@ -579,7 +617,10 @@ export async function deleteContact(id: number, redirectToAll = false) {
     headers,
   });
 
-  revalidateContacts();
+  revalidate({
+    contact: true,
+    contacts: true,
+  });
 
   if (!res.ok) {
     throw new Error("Failed to delete contact");
@@ -612,7 +653,10 @@ export async function deleteContacts(ids: number[]) {
     headers,
   });
 
-  revalidateContacts();
+  revalidate({
+    contact: true,
+    contacts: true,
+  });
 
   if (!res.ok) {
     throw new Error("Failed to delete contacts");
@@ -646,7 +690,10 @@ export async function tagContacts(ids: number[], tagIds: number[]) {
     }),
   });
 
-  revalidateContacts();
+  revalidate({
+    contact: true,
+    contacts: true,
+  });
 
   if (!res.ok) {
     throw new Error("Failed to update contact tags");
@@ -655,7 +702,25 @@ export async function tagContacts(ids: number[], tagIds: number[]) {
   return;
 }
 
-export async function revalidateContacts() {
-  revalidateTag("/contact");
-  revalidateTag("/contacts");
+export function revalidate({
+  contact = false,
+  contacts = false,
+  tags = false,
+  user = false,
+}) {
+  if (contact) {
+    revalidateTag(`/contact`);
+  }
+
+  if (contacts) {
+    revalidateTag("/contacts");
+  }
+
+  if (tags) {
+    revalidateTag("/tags");
+  }
+
+  if (user) {
+    revalidateTag("/user");
+  }
 }
