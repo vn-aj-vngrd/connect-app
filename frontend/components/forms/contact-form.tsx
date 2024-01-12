@@ -395,7 +395,8 @@ export function ContactForm({ type, contact, isEditIcon, onClose }: Props) {
                                   value={country.name}
                                   className="flex"
                                 >
-                                  {country.flag} {country.name} (+
+                                  {country.flag} {country.name} (
+                                  {country.phonecode.includes("+") ? "" : "+"}
                                   {country.phonecode})
                                 </SelectItem>
                               ))}
