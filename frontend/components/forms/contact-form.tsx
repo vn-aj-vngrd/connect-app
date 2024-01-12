@@ -99,6 +99,7 @@ export function ContactForm({ type, contact, isEditIcon, onClose }: Props) {
         firstName: contact.firstName || undefined,
         lastName: contact.lastName || undefined,
         phoneNumber: contact.phoneNumber || undefined,
+        phoneCountry: contact.phoneCountry || undefined,
         email: contact.email || undefined,
         deliveryAddress: {
           country: contact.deliveryAddress?.country || undefined,
@@ -250,7 +251,7 @@ export function ContactForm({ type, contact, isEditIcon, onClose }: Props) {
   }
 
   const watchIsFavorite = form.watch("isFavorite");
-  const watchPhoneNumber = form.watch("phoneNumber");
+  const watchPhoneCountry = form.watch("phoneCountry");
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -364,14 +365,16 @@ export function ContactForm({ type, contact, isEditIcon, onClose }: Props) {
                       <FormControl>
                         <div className="flex flex-row gap-2">
                           <Select
-                            value={
-                              countries.find((country) =>
-                                watchPhoneNumber?.startsWith(
-                                  `+${country.phonecode}`
-                                )
-                              )?.name || ""
-                            }
+                            value={watchPhoneCountry}
                             onValueChange={(value) => {
+                              form.setValue(
+                                "phoneCountry",
+                                value ? value : "Philippines",
+                                {
+                                  shouldDirty: true,
+                                }
+                              );
+
                               const phoneCode =
                                 countries.find(
                                   (country) => country.name === value
@@ -393,10 +396,9 @@ export function ContactForm({ type, contact, isEditIcon, onClose }: Props) {
                           >
                             <SelectTrigger className="w-fit">
                               <span className="pr-2">
-                                {countries.find((country) =>
-                                  watchPhoneNumber?.startsWith(
-                                    `+${country.phonecode}`
-                                  )
+                                {countries.find(
+                                  (_country) =>
+                                    _country.name === watchPhoneCountry
                                 )?.flag || "🏳️"}
                               </span>
                             </SelectTrigger>

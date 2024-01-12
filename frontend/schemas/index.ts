@@ -124,6 +124,7 @@ export const contactSchema = z.object({
   }),
   lastName: z.string().optional(),
   phoneNumber: z.string().optional(),
+  phoneCountry: z.string().optional(),
   email: z.string().email().optional(),
   deliveryAddress: z
     .object({
