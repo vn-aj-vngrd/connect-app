@@ -19,7 +19,7 @@ export default async function Page({ params }: Props) {
   return (
     <div className="flex flex-col h-full">
       <Header
-        title={params.slug}
+        title={search}
         subtitle="Search Results"
         icon={SearchIcon}
         description="Search for a contact by name, email, address, or phone number."
@@ -29,7 +29,7 @@ export default async function Page({ params }: Props) {
       <div className="flex-grow px-2 md:px-5">
         <ContactList
           initalContacts={initalContacts}
-          search={params.slug}
+          search={search}
           total={total}
         />
       </div>
