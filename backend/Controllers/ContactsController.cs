@@ -55,6 +55,7 @@ public partial class ContactsController : ControllerBase
                     c.FirstName.Contains(search)
                     || (c.LastName != null && c.LastName.Contains(search))
                     || (c.PhoneNumber != null && c.PhoneNumber.Contains(search))
+                    || (c.PhoneCountry != null && c.PhoneCountry.Contains(search))
                     || (c.Email != null && c.Email.Contains(search))
                     || (
                         c.DeliveryAddress != null
@@ -189,6 +190,7 @@ public partial class ContactsController : ControllerBase
         contact.FirstName = request.FirstName[0].ToString().ToUpper() + request.FirstName[1..];
         contact.LastName = request.LastName;
         contact.PhoneNumber = request.PhoneNumber;
+        contact.PhoneCountry = request.PhoneCountry;
         contact.Email = request.Email;
         contact.Website = request.Website;
         contact.Notes = request.Notes;
@@ -300,7 +302,7 @@ public partial class ContactsController : ControllerBase
     // POST: api/contacts
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Contact>> PostContact(AddContactRequest contact)
+    public async Task<ActionResult<Contact>> PostContact(AddContactRequest request)
     {
         var contactCount = await _context
             .Contacts
@@ -312,30 +314,31 @@ public partial class ContactsController : ControllerBase
             return BadRequest("You have reached the maximum number of contacts.");
         }
 
-        if (contact.Image != null && contact.Image.Length > AppConstants.MaxImageSize)
+        if (request.Image != null && request.Image.Length > AppConstants.MaxImageSize)
         {
             return BadRequest("Image size cannot exceed 1MB");
         }
 
         var newContact = new Contact
         {
-            Image = contact.Image,
-            FirstName = contact.FirstName[0].ToString().ToUpper() + contact.FirstName[1..],
-            LastName = contact.LastName,
-            PhoneNumber = contact.PhoneNumber,
-            Email = contact.Email,
-            DeliveryAddress = contact.DeliveryAddress,
-            BillingAddress = contact.BillingAddress,
-            Website = contact.Website,
-            Notes = contact.Notes,
+            Image = request.Image,
+            FirstName = request.FirstName[0].ToString().ToUpper() + request.FirstName[1..],
+            LastName = request.LastName,
+            PhoneNumber = request.PhoneNumber,
+            PhoneCountry = request.PhoneCountry,
+            Email = request.Email,
+            DeliveryAddress = request.DeliveryAddress,
+            BillingAddress = request.BillingAddress,
+            Website = request.Website,
+            Notes = request.Notes,
             AppUserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
-            IsFavorite = contact.IsFavorite
+            IsFavorite = request.IsFavorite
         };
 
         _context.Contacts.Add(newContact);
         await _context.SaveChangesAsync();
 
-        foreach (var tagId in contact.TagIds)
+        foreach (var tagId in request.TagIds)
         {
             var contactTag = new ContactTag { ContactId = newContact.Id, TagId = tagId };
 
@@ -513,6 +516,7 @@ public partial class ContactsController : ControllerBase
                         c.FirstName,
                         c.LastName,
                         c.PhoneNumber,
+                        c.PhoneCountry,
                         c.Email,
                         c.Website,
                         c.Notes,
@@ -589,6 +593,7 @@ public partial class ContactsController : ControllerBase
                                 c.FirstName,
                                 c.LastName,
                                 c.PhoneNumber,
+                                c.PhoneCountry,
                                 c.Email,
                                 c.Website,
                                 c.Notes,
@@ -636,6 +641,7 @@ public partial class ContactsController : ControllerBase
                                 c.FirstName,
                                 c.LastName,
                                 c.PhoneNumber,
+                                c.PhoneCountry,
                                 c.Email,
                                 c.Website,
                                 c.Notes,
@@ -715,6 +721,7 @@ public partial class ContactsController : ControllerBase
                 FirstName = contact.FirstName,
                 LastName = contact.LastName,
                 PhoneNumber = contact.PhoneNumber,
+                PhoneCountry = contact.PhoneCountry,
                 Email = contact.Email,
                 Website = contact.Website,
                 Notes = contact.Notes,
@@ -807,6 +814,11 @@ public partial class ContactsController : ControllerBase
                     case "phonenumber":
                         query = query.Where(
                             c => c.PhoneNumber != null && c.PhoneNumber.Contains(value)
+                        );
+                        break;
+                    case "phonecountry":
+                        query = query.Where(
+                            c => c.PhoneCountry != null && c.PhoneCountry.Contains(value)
                         );
                         break;
                     case "email":
@@ -924,6 +936,7 @@ public partial class ContactsController : ControllerBase
             || sortField != "FirstName"
                 && sortField != "LastName"
                 && sortField != "PhoneNumber"
+                && sortField != "PhoneCountry"
                 && sortField != "Email"
                 && sortField != "Website"
         )
