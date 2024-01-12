@@ -10,7 +10,7 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
-  const search = params.slug.replace(/%/g, "");
+  const search = params.slug.replace(/%20/g, " ");
 
   const { data: initalContacts, total } = await getContacts({
     search,

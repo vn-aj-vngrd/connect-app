@@ -39,9 +39,7 @@ export function Header({
         </Link>
 
         {subtitle && (
-          <p className="hidden text-sm font-semibold md:flex">
-            {subtitle}
-          </p>
+          <p className="hidden text-sm font-semibold md:flex">{subtitle}</p>
         )}
 
         <div className="flex flex-row items-center justify-center gap-3">
@@ -77,7 +75,7 @@ export function Header({
           <div className="flex flex-col gap-2">
             {title && (
               <div className="flex flex-row items-end gap-3">
-                <h3 className="text-4xl font-semibold md:text-8xl text-foreground">
+                <h3 className="text-4xl font-semibold md:text-8xl text-foreground text-wrap">
                   {title}
                 </h3>
 
