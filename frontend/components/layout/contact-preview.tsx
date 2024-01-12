@@ -92,32 +92,51 @@ export function ContactPreview() {
     }
   }
 
+  // function copyToClipboard(text: string) {
+  //   if (text === "Not Available" || !text) return;
+
+  //   navigator.clipboard
+  //     .writeText(text)
+  //     .then(() => {
+  //       toast.success("Copied to clipboard", {
+  //         action: {
+  //           label: "Close",
+  //           onClick: () => {
+  //             toast.dismiss();
+  //           },
+  //         },
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //       toast.error("Failed to copy to clipboard", {
+  //         action: {
+  //           label: "Close",
+  //           onClick: () => {
+  //             toast.dismiss();
+  //           },
+  //         },
+  //       });
+  //     });
+  // }
+
   function copyToClipboard(text: string) {
     if (text === "Not Available" || !text) return;
 
-    navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        toast.success("Copied to clipboard", {
-          action: {
-            label: "Close",
-            onClick: () => {
-              toast.dismiss();
-            },
-          },
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-        toast.error("Failed to copy to clipboard", {
-          action: {
-            label: "Close",
-            onClick: () => {
-              toast.dismiss();
-            },
-          },
-        });
-      });
+    var textarea = document.createElement("textarea");
+    textarea.value = text;
+    document.body.appendChild(textarea);
+
+    try {
+      textarea.select();
+      document.execCommand("copy");
+      toast.success("Copied to clipboard");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to copy to clipboard");
+    } finally {
+      document.body.removeChild(textarea);
+    }
   }
 
   function formatAddress(address: {
