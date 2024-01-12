@@ -408,7 +408,7 @@ export function ContactForm({ type, contact, isEditIcon, onClose }: Props) {
                                   value={country.name}
                                   className="flex"
                                 >
-                                  {country.flag} {country.name} (
+                                  {country.name} (
                                   {country.phonecode.startsWith("+") ? "" : "+"}
                                   {country.phonecode})
                                 </SelectItem>
@@ -468,7 +468,7 @@ export function ContactForm({ type, contact, isEditIcon, onClose }: Props) {
                                 value={country.name}
                                 className="flex"
                               >
-                                {country.flag} {country.name}
+                                {country.name}
                               </SelectItem>
                             ))}
                           </SelectContent>
