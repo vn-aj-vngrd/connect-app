@@ -26,13 +26,13 @@ Make sure you have the following prerequisites installed on your system:
 
 ## Preparation
 
-1. Starting with backend preparation, let's modify the AppHost located in "backend/appsettings.json" and change it to your local IP address. To identify your local IP address, run the following command:
+1. Starting with backend preparation, let's modify the '**AppHost**' field located in "backend/appsettings.json," which can be seen at the bottom. Change it to your local IP address. To identify your local IP address, run the following command:
 
    ```bash
    ipconfig
    ```
 
-2. Now in the frontend side, let's modify the NEXT_PUBLIC_API_URL environment variable located in "frontend/.env.production" and change it to your local IP address.
+2. Now in the frontend side, let's modify the '**NEXT_PUBLIC_API_URL**' environment variable located in "frontend/.env.production" and change it to your local IP address.
 
 ## Build
 
