@@ -84,8 +84,6 @@ export function ContactForm({ type, contact, isEditIcon, onClose }: Props) {
 
   const [isPending, setIsPending] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
-  const [phoneCode, setPhoneCode] = useState<string>("63");
-
   const [selectedTags, setSeletedTags] = useState<TagWithId[]>(
     contact?.tags || []
   );
@@ -252,6 +250,7 @@ export function ContactForm({ type, contact, isEditIcon, onClose }: Props) {
   }
 
   const watchIsFavorite = form.watch("isFavorite");
+  const watchPhoneNumber = form.watch("phoneNumber");
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -365,54 +364,59 @@ export function ContactForm({ type, contact, isEditIcon, onClose }: Props) {
                       <FormControl>
                         <div className="flex flex-row gap-2">
                           <Select
-                            defaultValue={
-                              countries.find(
-                                (country) => country.name === "Philippines"
-                              )?.name || "Philippines"
+                            value={
+                              countries.find((country) =>
+                                watchPhoneNumber?.startsWith(
+                                  `+${country.phonecode}`
+                                )
+                              )?.name || ""
                             }
                             onValueChange={(value) => {
-                              setPhoneCode(
+                              const phoneCode =
                                 countries.find(
                                   (country) => country.name === value
-                                )?.phonecode || "63"
+                                )?.phonecode || "";
+
+                              if (phoneCode === "") {
+                                form.setValue("phoneNumber", "");
+
+                                return;
+                              }
+
+                              form.setValue(
+                                "phoneNumber",
+                                `${
+                                  phoneCode.startsWith("+") ? "" : "+"
+                                }${phoneCode}`
                               );
                             }}
                           >
                             <SelectTrigger className="w-fit">
                               <span className="pr-2">
-                                {
-                                  countries.find(
-                                    (country) => country.phonecode === phoneCode
-                                  )?.flag
-                                }
+                                {countries.find((country) =>
+                                  watchPhoneNumber?.startsWith(
+                                    `+${country.phonecode}`
+                                  )
+                                )?.flag || "🏳️"}
                               </span>
                             </SelectTrigger>
 
                             <SelectContent>
-                              {countries.map((country) => (
+                              {countries.map((country, index) => (
                                 <SelectItem
-                                  key={country.name}
+                                  key={index}
                                   value={country.name}
                                   className="flex"
                                 >
                                   {country.flag} {country.name} (
-                                  {country.phonecode.includes("+") ? "" : "+"}
+                                  {country.phonecode.startsWith("+") ? "" : "+"}
                                   {country.phonecode})
                                 </SelectItem>
                               ))}
                             </SelectContent>
                           </Select>
 
-                          <Input
-                            type="text"
-                            placeholder={
-                              "+" +
-                              countries.find(
-                                (country) => country.phonecode === phoneCode
-                              )?.phonecode
-                            }
-                            {...field}
-                          />
+                          <Input type="text" {...field} />
                         </div>
                       </FormControl>
 
