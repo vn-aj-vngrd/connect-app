@@ -75,7 +75,7 @@ export function Header({
           <div className="flex flex-col gap-2">
             {title && (
               <div className="flex flex-row items-end gap-3">
-                <h3 className="text-4xl font-semibold md:text-8xl text-foreground text-wrap">
+                <h3 className="text-4xl font-semibold truncate md:text-8xl text-foreground">
                   {title}
                 </h3>
 
